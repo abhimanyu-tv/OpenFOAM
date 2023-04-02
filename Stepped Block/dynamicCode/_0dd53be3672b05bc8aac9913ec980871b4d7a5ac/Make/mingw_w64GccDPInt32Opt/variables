@@ -1,1 +1,0 @@
-LIB = $(abspath $(PWD)/../platforms/$(WM_OPTIONS)/lib/libcodeStream_0dd53be3672b05bc8aac9913ec980871b4d7a5ac)
