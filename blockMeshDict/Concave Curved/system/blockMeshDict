@@ -1,0 +1,83 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1;
+
+L 3; // Length of the Block
+B 2; // Breadth of the Block
+H 1; // height of the Block
+R 0.6; // radius of Curvature
+x1 #calc "$L-$R";
+y1 #calc "$B-$R";
+x #calc "$R*0.7071";
+py #calc "$R*0.7071";
+px #calc "$L-$x";
+
+x1cell #calc "$x1*10";
+y1cell #calc "$y1*10";
+Rcell #calc "$R*10";
+zcell #calc "$H*10";
+
+vertices
+(
+    (0 0 0)
+    ($x1 0 0)
+    ($L $R 0)
+    ($L $B 0)
+    ($x1 $B 0)
+    (0 $B 0)
+    (0 $R 0)
+    ($x1 $R 0)
+    (0 0 $H)
+    ($x1 0 $H)
+    ($L $R $H)
+    ($L $B $H)
+    ($x1 $B $H)
+    (0 $B $H)
+    (0 $R $H)
+    ($x1 $R $H)
+);
+
+blocks
+(
+    hex (0 1 7 6 8 9 15 14) ($x1cell $Rcell $zcell) simpleGrading (1 1 1)
+    hex (1 2 7 7 9 10 15 15) ($Rcell $Rcell $zcell) simpleGrading (1 1 1)
+    hex (7 2 3 4 15 10 11 12) ($Rcell $y1cell $zcell) simpleGrading (1 1 1)
+    hex (6 7 4 5 14 15 12 13) ($x1cell $y1cell $zcell) simpleGrading (1 1 1)
+);
+
+edges
+(
+    arc 1 2 ($px $py 0)
+    arc 9 10 ($px $py $H)
+);
+
+boundary
+(    
+    Walls
+    {
+        type wall;
+        faces
+        (
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //

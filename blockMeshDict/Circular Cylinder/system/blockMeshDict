@@ -1,0 +1,99 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1;
+
+R 5; //Radius of the cylinder
+H 30; //Height of the cylinder
+r #calc "$R/3";
+radAngle #calc "degToRad(45)";  //convert angle to radians
+C #calc "$R*sin($radAngle)";   //Point in curve R sin angle
+
+vertices
+(
+    (#calc "-1.0*$R" 0 0)
+    (0 $R 0)
+    ($R 0 0)
+    (0 #calc "-1.0*$R" 0)
+
+    (#calc "-1.0*$R" 0 $H)
+    (0 $R $H)
+    ($R 0 $H)
+    (0 #calc "-1.0*$R" $H)
+
+    (#calc "-1.0*$r" 0 0)
+    (0 $r 0)
+    ($r 0 0)
+    (0 #calc "-1.0*$r" 0)
+
+    (#calc "-1.0*$r" 0 $H)
+    (0 $r $H)
+    ($r 0 $H)
+    (0 #calc "-1.0*$r" $H)
+    
+);
+
+blocks
+(
+    hex (0 4 7 3 8 12 15 11) (20 20 20) simpleGrading (1 1 1)
+    hex (0 4 12 8 1 5 13 9) (20 20 20) simpleGrading (1 1 1)
+    hex (8 12 15 11 9 13 14 10) (20 20 20) simpleGrading (1 1 1)
+    hex (9 13 14 10 1 5 6 2) (20 20 20) simpleGrading (1 1 1)
+    hex (11 15 7 3 10 14 6 2) (20 20 20) simpleGrading (1 1 1)
+);
+
+edges
+(
+    arc 0 1 (#calc "-1.0*$C" $C 0)
+    arc 1 2 ($C $C 0)
+    arc 2 3 ($C #calc "-1.0*$C" 0)
+    arc 3 0 (#calc "-1.0*$C" #calc "-1.0*$C" 0)
+    
+    arc 4 5 (#calc "-1.0*$C" $C $H)
+    arc 5 6 ($C $C $H)
+    arc 6 7 ($C #calc "-1.0*$C" $H)
+    arc 7 4 (#calc "-1.0*$C" #calc "-1.0*$C" $H)
+
+);
+
+
+boundary
+(
+    Walls
+    {
+        type wall;
+        faces
+        (
+            (0 4 7 3)
+            (0 4 5 1)
+            (5 1 2 6)
+            (2 6 7 3)
+            (0 8 9 1)
+            (1 9 10 2)
+            (11 3 2 10)
+            (0 3 11 8)
+            (4 7 15 12)
+            (4 12 13 5)
+            (5 13 14 6)
+            (15 7 6 14)
+        );
+    }
+)
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
