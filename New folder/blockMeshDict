@@ -1,0 +1,78 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// blockMeshDict for Stepped Rectangular Block
+convertToMeters 1;
+
+L 3; // Length of the Block
+B 2; // Breadth of the Block
+H 1; // height of the Block
+w 0.6; //width of step
+h 0.5; //height of step
+w2 #calc "$B-$w";
+h2 #calc "$H-$h";
+xcell #calc "$L*10";
+y1cell #calc "$w*10";
+y2cell #calc "$w2*10";
+z1cell #calc "$h*10";
+z2cell #calc "$h2*10";
+
+vertices
+(
+    (0 0 0)
+    ($L 0 0)
+    ($L $w 0)
+    ($L $B 0)
+    (0 $B 0)
+    (0 $w 0)
+    (0 0 $h)
+    ($L 0 $h)
+    ($L $w $h)
+    ($L $B $h)
+    (0 $B $h)
+    (0 $w $h)
+    (0 $w $H)
+    ($L $w $H)
+    ($L $B $H)
+    (0 $B $H)
+);
+
+blocks
+(
+    hex (0 1 2 5 6 7 8 11) ($xcell $y1cell $z1cell) simpleGrading (1 1 1)
+    hex (5 2 3 4 11 8 9 10) ($xcell $y2cell $z1cell) simpleGrading (1 1 1)
+    hex (11 8 9 10 12 13 14 15) ($xcell $y2cell $z2cell) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(    
+    Walls
+    {
+        type wall;
+        faces
+        (
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
