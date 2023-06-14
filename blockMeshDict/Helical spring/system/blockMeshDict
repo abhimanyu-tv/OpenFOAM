@@ -1,0 +1,352 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// blockMeshDict for helical Spring
+convertToMeters 0.1;
+
+a 0.5; // width of Wire
+b 0.5; // breadth of wire
+R 2.5; // Radius of Spirial
+P 1; // Pitch of spiral
+lcell #calc "$R*30";
+acell #calc "$a*50";
+bcell #calc "$b*50";
+
+
+radAngle #calc "degToRad(45)";  //convert angle to radians
+r2 #calc "$R*1";
+r1 #calc "$R-$b";
+
+r2n #calc "$r2*-1.0";
+r1n #calc "$r1*-1.0";
+
+r1p #calc "$r1*sin($radAngle)"; 
+r2p #calc "$r2*sin($radAngle)";  
+
+r2pn #calc "$r2p*-1.0";
+r1pn #calc "$r1p*-1.0";
+
+p1 #calc "$P*0.25";
+p2 #calc "$P*0.5";
+p3 #calc "$P*0.75";
+p4 #calc "$P*1";
+
+p5 #calc "$P*0.125";
+p6 #calc "$P*0.375";
+p7 #calc "$P*0.625";
+p8 #calc "$P*0.875";
+
+
+vertices
+(
+    ($r2n 0 0)
+    ($r1n 0 0)
+    ($r1n 0 $a)
+    ($r2n 0 $a)
+
+    (0 $r2n $p1)
+    (0 $r1n $p1)
+    (0 $r1n #calc "$p1+$a")
+    (0 $r2n #calc "$p1+$a")
+
+    ($r2 0 $p2)
+    ($r1 0 $p2)
+    ($r1 0 #calc "$p2+$a")
+    ($r2 0 #calc "$p2+$a")
+
+    (0 $r2 $p3)
+    (0 $r1 $p3)
+    (0 $r1 #calc "$p3+$a")
+    (0 $r2 #calc "$p3+$a")
+
+    ($r2n 0 $p4)
+    ($r1n 0 $p4)
+    ($r1n 0 #calc "$p4+$a")
+    ($r2n 0 #calc "$p4+$a")
+
+
+    (0 $r2n #calc "$P+$p1")
+    (0 $r1n #calc "$P+$p1")
+    (0 $r1n #calc "$P+$p1+$a")
+    (0 $r2n #calc "$P+$p1+$a")
+
+    ($r2 0 #calc "$P+$p2")
+    ($r1 0 #calc "$P+$p2")
+    ($r1 0 #calc "$P+$p2+$a")
+    ($r2 0 #calc "$P+$p2+$a")
+
+    (0 $r2 #calc "$P+$p3")
+    (0 $r1 #calc "$P+$p3")
+    (0 $r1 #calc "$P+$p3+$a")
+    (0 $r2 #calc "$P+$p3+$a")
+
+    ($r2n 0 #calc "$P+$p4")
+    ($r1n 0 #calc "$P+$p4")
+    ($r1n 0 #calc "$P+$p4+$a")
+    ($r2n 0 #calc "$P+$p4+$a")
+
+    (0 $r2n #calc "$P+$P+$p1")
+    (0 $r1n #calc "$P+$P+$p1")
+    (0 $r1n #calc "$P+$P+$p1+$a")
+    (0 $r2n #calc "$P+$P+$p1+$a")
+
+    ($r2 0 #calc "$P+$P+$p2")
+    ($r1 0 #calc "$P+$P+$p2")
+    ($r1 0 #calc "$P+$P+$p2+$a")
+    ($r2 0 #calc "$P+$P+$p2+$a")
+
+    (0 $r2 #calc "$P+$P+$p3")
+    (0 $r1 #calc "$P+$P+$p3")
+    (0 $r1 #calc "$P+$P+$p3+$a")
+    (0 $r2 #calc "$P+$P+$p3+$a")
+
+    ($r2n 0 #calc "$P+$P+$p4")
+    ($r1n 0 #calc "$P+$P+$p4")
+    ($r1n 0 #calc "$P+$P+$p4+$a")
+    ($r2n 0 #calc "$P+$P+$p4+$a")
+
+    (0 $r2n #calc "$P+$P+$P+$p1")
+    (0 $r1n #calc "$P+$P+$P+$p1")
+    (0 $r1n #calc "$P+$P+$P+$p1+$a")
+    (0 $r2n #calc "$P+$P+$P+$p1+$a")
+
+    ($r2 0 #calc "$P+$P+$P+$p2")
+    ($r1 0 #calc "$P+$P+$P+$p2")
+    ($r1 0 #calc "$P+$P+$P+$p2+$a")
+    ($r2 0 #calc "$P+$P+$P+$p2+$a")
+
+    (0 $r2 #calc "$P+$P+$P+$p3")
+    (0 $r1 #calc "$P+$P+$P+$p3")
+    (0 $r1 #calc "$P+$P+$P+$p3+$a")
+    (0 $r2 #calc "$P+$P+$P+$p3+$a")
+
+    ($r2n 0 #calc "$P+$P+$P+$p4")
+    ($r1n 0 #calc "$P+$P+$P+$p4")
+    ($r1n 0 #calc "$P+$P+$P+$p4+$a")
+    ($r2n 0 #calc "$P+$P+$P+$p4+$a")
+
+    (0 $r2n #calc "$P+$P+$P+$P+$p1")
+    (0 $r1n #calc "$P+$P+$P+$P+$p1")
+    (0 $r1n #calc "$P+$P+$P+$P+$p1+$a")
+    (0 $r2n #calc "$P+$P+$P+$P+$p1+$a")
+
+    ($r2 0 #calc "$P+$P+$P+$P+$p2")
+    ($r1 0 #calc "$P+$P+$P+$P+$p2")
+    ($r1 0 #calc "$P+$P+$P+$P+$p2+$a")
+    ($r2 0 #calc "$P+$P+$P+$P+$p2+$a")
+
+    (0 $r2 #calc "$P+$P+$P+$P+$p3")
+    (0 $r1 #calc "$P+$P+$P+$P+$p3")
+    (0 $r1 #calc "$P+$P+$P+$P+$p3+$a")
+    (0 $r2 #calc "$P+$P+$P+$P+$p3+$a")
+
+    ($r2n 0 #calc "$P+$P+$P+$P+$p4")
+    ($r1n 0 #calc "$P+$P+$P+$P+$p4")
+    ($r1n 0 #calc "$P+$P+$P+$P+$p4+$a")
+    ($r2n 0 #calc "$P+$P+$P+$P+$p4+$a")
+
+    (0 $r2n #calc "$P+$P+$P+$P+$P+$p1")
+    (0 $r1n #calc "$P+$P+$P+$P+$P+$p1")
+    (0 $r1n #calc "$P+$P+$P+$P+$P+$p1+$a")
+    (0 $r2n #calc "$P+$P+$P+$P+$P+$p1+$a")
+
+    ($r2 0 #calc "$P+$P+$P+$P+$P+$p2")
+    ($r1 0 #calc "$P+$P+$P+$P+$P+$p2")
+    ($r1 0 #calc "$P+$P+$P+$P+$P+$p2+$a")
+    ($r2 0 #calc "$P+$P+$P+$P+$P+$p2+$a")
+
+    (0 $r2 #calc "$P+$P+$P+$P+$P+$p3")
+    (0 $r1 #calc "$P+$P+$P+$P+$P+$p3")
+    (0 $r1 #calc "$P+$P+$P+$P+$P+$p3+$a")
+    (0 $r2 #calc "$P+$P+$P+$P+$P+$p3+$a")
+
+    ($r2n 0 #calc "$P+$P+$P+$P+$P+$p4")
+    ($r1n 0 #calc "$P+$P+$P+$P+$P+$p4")
+    ($r1n 0 #calc "$P+$P+$P+$P+$P+$p4+$a")
+    ($r2n 0 #calc "$P+$P+$P+$P+$P+$p4+$a")
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (4 5 6 7 8 9 10 11) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (8 9 10 11 12 13 14 15) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (12 13 14 15 16 17 18 19) ($bcell $acell $lcell) simpleGrading (1 1 1)
+
+    hex (16 17 18 19 20 21 22 23) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (20 21 22 23 24 25 26 27) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (24 25 26 27 28 29 30 31) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (28 29 30 31 32 33 34 35) ($bcell $acell $lcell) simpleGrading (1 1 1)
+
+    hex (32 33 34 35 36 37 38 39) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (36 37 38 39 40 41 42 43) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (40 41 42 43 44 45 46 47) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (44 45 46 47 48 49 50 51) ($bcell $acell $lcell) simpleGrading (1 1 1)
+
+    hex (48 49 50 51 52 53 54 55) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (52 53 54 55 56 57 58 59) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (56 57 58 59 60 61 62 63) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (60 61 62 63 64 65 66 67) ($bcell $acell $lcell) simpleGrading (1 1 1)
+
+    hex (64 65 66 67 68 69 70 71) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (68 69 70 71 72 73 74 75) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (72 73 74 75 76 77 78 79) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (76 77 78 79 80 81 82 83) ($bcell $acell $lcell) simpleGrading (1 1 1)
+
+    hex (80 81 82 83 84 85 86 87) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (84 85 86 87 88 89 90 91) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (88 89 90 91 92 93 94 95) ($bcell $acell $lcell) simpleGrading (1 1 1)
+    hex (92 93 94 95 96 97 98 99) ($bcell $acell $lcell) simpleGrading (1 1 1)
+);
+
+edges
+(
+    arc 1 5 ($r1pn $r1pn $p5)
+    arc 2 6 ($r1pn $r1pn #calc "$p5+$a")
+    arc 0 4 ($r2pn $r2pn $p5)
+    arc 3 7 ($r2pn $r2pn #calc "$p5+$a")
+
+    arc 5 9 ($r1p $r1pn $p6)
+    arc 6 10 ($r1p $r1pn #calc "$p6+$a")
+    arc 4 8 ($r2p $r2pn $p6)
+    arc 7 11 ($r2p $r2pn #calc "$p6+$a")
+
+    arc 9 13 ($r1p $r1p $p7)
+    arc 10 14 ($r1p $r1p #calc "$p7+$a")
+    arc 8 12 ($r2p $r2p $p7)
+    arc 11 15 ($r2p $r2p #calc "$p7+$a")
+
+    arc 13 17 ($r1pn $r1p $p8)
+    arc 14 18 ($r1pn $r1p #calc "$p8+$a")
+    arc 12 16 ($r2pn $r2p $p8)
+    arc 15 19 ($r2pn $r2p #calc "$p8+$a")
+
+    arc 17 21 ($r1pn $r1pn #calc "$P+$p5")
+    arc 18 22 ($r1pn $r1pn #calc "$P+$p5+$a")
+    arc 16 20 ($r2pn $r2pn #calc "$P+$p5")
+    arc 19 23 ($r2pn $r2pn #calc "$P+$p5+$a")
+
+    arc 21 25 ($r1p $r1pn #calc "$P+$p6")
+    arc 22 26 ($r1p $r1pn #calc "$P+$p6+$a")
+    arc 20 24 ($r2p $r2pn #calc "$P+$p6")
+    arc 23 27 ($r2p $r2pn #calc "$P+$p6+$a")
+
+    arc 25 29 ($r1p $r1p #calc "$P+$p7")
+    arc 26 30 ($r1p $r1p #calc "$P+$p7+$a")
+    arc 24 28 ($r2p $r2p #calc "$P+$p7")
+    arc 27 31 ($r2p $r2p #calc "$P+$p7+$a")
+
+    arc 29 33 ($r1pn $r1p #calc "$P+$p8")
+    arc 30 34 ($r1pn $r1p #calc "$P+$p8+$a")
+    arc 28 32 ($r2pn $r2p #calc "$P+$p8")
+    arc 31 35 ($r2pn $r2p #calc "$P+$p8+$a")
+
+    arc 33 37 ($r1pn $r1pn #calc "$P+$P+$p5")
+    arc 34 38 ($r1pn $r1pn #calc "$P+$P+$p5+$a")
+    arc 32 36 ($r2pn $r2pn #calc "$P+$P+$p5")
+    arc 35 39 ($r2pn $r2pn #calc "$P+$P+$p5+$a")
+
+    arc 37 41 ($r1p $r1pn #calc "$P+$P+$p6")
+    arc 38 42 ($r1p $r1pn #calc "$P+$P+$p6+$a")
+    arc 36 40 ($r2p $r2pn #calc "$P+$P+$p6")
+    arc 39 43 ($r2p $r2pn #calc "$P+$P+$p6+$a")
+
+    arc 41 45 ($r1p $r1p #calc "$P+$P+$p7")
+    arc 42 46 ($r1p $r1p #calc "$P+$P+$p7+$a")
+    arc 40 44 ($r2p $r2p #calc "$P+$P+$p7")
+    arc 43 47 ($r2p $r2p #calc "$P+$P+$p7+$a")
+
+    arc 45 49 ($r1pn $r1p #calc "$P+$P+$p8")
+    arc 46 50 ($r1pn $r1p #calc "$P+$P+$p8+$a")
+    arc 44 48 ($r2pn $r2p #calc "$P+$P+$p8")
+    arc 47 51 ($r2pn $r2p #calc "$P+$P+$p8+$a")
+
+    arc 49 53 ($r1pn $r1pn #calc "$P+$P+$P+$p5")
+    arc 50 54 ($r1pn $r1pn #calc "$P+$P+$P+$p5+$a")
+    arc 48 52 ($r2pn $r2pn #calc "$P+$P+$P+$p5")
+    arc 51 55 ($r2pn $r2pn #calc "$P+$P+$P+$p5+$a")
+
+    arc 53 57 ($r1p $r1pn #calc "$P+$P+$P+$p6")
+    arc 54 58 ($r1p $r1pn #calc "$P+$P+$P+$p6+$a")
+    arc 52 56 ($r2p $r2pn #calc "$P+$P+$P+$p6")
+    arc 55 59 ($r2p $r2pn #calc "$P+$P+$P+$p6+$a")
+
+    arc 57 61 ($r1p $r1p #calc "$P+$P+$P+$p7")
+    arc 58 62 ($r1p $r1p #calc "$P+$P+$P+$p7+$a")
+    arc 56 60 ($r2p $r2p #calc "$P+$P+$P+$p7")
+    arc 59 63 ($r2p $r2p #calc "$P+$P+$P+$p7+$a")
+
+    arc 61 65 ($r1pn $r1p #calc "$P+$P+$P+$p8")
+    arc 62 66 ($r1pn $r1p #calc "$P+$P+$P+$p8+$a")
+    arc 60 64 ($r2pn $r2p #calc "$P+$P+$P+$p8")
+    arc 63 67 ($r2pn $r2p #calc "$P+$P+$P+$p8+$a")
+
+    arc 65 69 ($r1pn $r1pn #calc "$P+$P+$P+$P+$p5")
+    arc 66 70 ($r1pn $r1pn #calc "$P+$P+$P+$P+$p5+$a")
+    arc 64 68 ($r2pn $r2pn #calc "$P+$P+$P+$P+$p5")
+    arc 67 71 ($r2pn $r2pn #calc "$P+$P+$P+$P+$p5+$a")
+
+    arc 69 73 ($r1p $r1pn #calc "$P+$P+$P+$P+$p6")
+    arc 70 74 ($r1p $r1pn #calc "$P+$P+$P+$P+$p6+$a")
+    arc 68 72 ($r2p $r2pn #calc "$P+$P+$P+$P+$p6")
+    arc 71 75 ($r2p $r2pn #calc "$P+$P+$P+$P+$p6+$a")
+
+    arc 73 77 ($r1p $r1p #calc "$P+$P+$P+$P+$p7")
+    arc 74 78 ($r1p $r1p #calc "$P+$P+$P+$P+$p7+$a")
+    arc 72 76 ($r2p $r2p #calc "$P+$P+$P+$P+$p7")
+    arc 75 79 ($r2p $r2p #calc "$P+$P+$P+$P+$p7+$a")
+
+    arc 77 81 ($r1pn $r1p #calc "$P+$P+$P+$P+$p8")
+    arc 78 82 ($r1pn $r1p #calc "$P+$P+$P+$P+$p8+$a")
+    arc 76 80 ($r2pn $r2p #calc "$P+$P+$P+$P+$p8")
+    arc 79 83 ($r2pn $r2p #calc "$P+$P+$P+$P+$p8+$a")
+
+    arc 81 85 ($r1pn $r1pn #calc "$P+$P+$P+$P+$P+$p5")
+    arc 82 86 ($r1pn $r1pn #calc "$P+$P+$P+$P+$P+$p5+$a")
+    arc 80 84 ($r2pn $r2pn #calc "$P+$P+$P+$P+$P+$p5")
+    arc 83 87 ($r2pn $r2pn #calc "$P+$P+$P+$P+$P+$p5+$a")
+
+    arc 85 89 ($r1p $r1pn #calc "$P+$P+$P+$P+$P+$p6")
+    arc 86 90 ($r1p $r1pn #calc "$P+$P+$P+$P+$P+$p6+$a")
+    arc 84 88 ($r2p $r2pn #calc "$P+$P+$P+$P+$P+$p6")
+    arc 87 91 ($r2p $r2pn #calc "$P+$P+$P+$P+$P+$p6+$a")
+
+    arc 89 93 ($r1p $r1p #calc "$P+$P+$P+$P+$P+$p7")
+    arc 90 94 ($r1p $r1p #calc "$P+$P+$P+$P+$P+$p7+$a")
+    arc 88 92 ($r2p $r2p #calc "$P+$P+$P+$P+$P+$p7")
+    arc 91 95 ($r2p $r2p #calc "$P+$P+$P+$P+$P+$p7+$a")
+
+    arc 93 97 ($r1pn $r1p #calc "$P+$P+$P+$P+$P+$p8")
+    arc 94 98 ($r1pn $r1p #calc "$P+$P+$P+$P+$P+$p8+$a")
+    arc 92 96 ($r2pn $r2p #calc "$P+$P+$P+$P+$P+$p8")
+    arc 95 99 ($r2pn $r2p #calc "$P+$P+$P+$P+$P+$p8+$a")
+);
+
+boundary
+(    
+    Walls
+    {
+        type wall;
+        faces
+        (
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
